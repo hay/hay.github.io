@@ -17,6 +17,22 @@
     <title>Kittylist</title>
 
     <link rel="stylesheet" href="assets/style.css"/>
+
+
+    <script>
+        window.__ENV__ = 'dist';
+    </script>
+
+
+
+
+    <script>
+    (function(w, l) {
+        if (w.__ENV__ === 'dist' && l.protocol !== 'https:') {
+            l.href = "https:" + l.href.substring(l.protocol.length);
+        }
+    })(window, window.location);
+    </script>
 </head>
 <body ng-controller="MainCtrl" ng-class="{'no-touch' : !touchEnabled, 'has-touch' : touchEnabled}">
     <div class="pane-row" ng-show="!initializing">
