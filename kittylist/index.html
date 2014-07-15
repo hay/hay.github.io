@@ -1,0 +1,39 @@
+<!doctype html>
+<html ng-app="kittylist">
+<head>
+<!--       _ _   _           __ _     _
+      /\ /(_) |_| |_ _   _  / /(_)___| |_
+     / //_/ | __| __| | | |/ / | / __| __|
+    / __ \| | |_| |_| |_| / /__| \__ \ |_
+    \/  \/|_|\__|\__|\__, \____/_|___/\__|
+                     |___/
+
+    Created by Hay Kranen < http://www.haykranen.nl -->
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Kittylist</title>
+
+    <link rel="stylesheet" href="assets/style.css"/>
+</head>
+<body ng-controller="MainCtrl" ng-class="{'no-touch' : !touchEnabled, 'has-touch' : touchEnabled}">
+    <div class="pane-row" ng-show="!initializing">
+        <div ui-view="lists"
+             class="pane-col lists"
+             ng-class="{'lists-visible' : listsVisible, 'lists-hidden' : !listsVisible}"
+             ng-show="'list' | isState"
+        ></div>
+        <div ui-view="items" class="pane-col items" ng-show="'list' | isState"></div>
+        <div ui-view="settings" class="pane-col" ng-show="'settings' | isState"></div>
+    </div>
+
+    <ng-include src="'views/bootstrap.html'"></ng-include>
+
+    <!-- Purely used for screen mode detection -->
+    <div class="device-xs visible-xs-block"></div>
+
+    <script src="assets/app.js"></script>
+</body>
+</html>
