@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title></title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        button {
+            font-size: 30px;
+        }
+
+        video {
+            width: 100%;
+            background: black;
+        }
+
+        video::-webkit-media-controls-play-button,
+        video::-webkit-media-controls-start-playback-button {
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Inline looping video on an iPhone</h1>
+
+    <p>You can't play video on an iPhone <a href="http://www.haykranen.nl/2015/08/09/tackling-video-and-audio-on-the-mobile-web/">without going fullscreen</a> because god knows why. This is a pretty awful hack that basically moves the playhead on a video instead of really playing it. Because of that, you don't hear audio. Try extracting the audio and playing it in a separate &lt;audio&gt; element.</p>
+
+    <p>I didn't discover this hack. It's extracted from the <a href="https://www.npmjs.com/package/iphone-inline-video">iphone-inline-video</a> package.</p>
+
+    <p>Note: this ONLY works on an iPhone. Don't try this in any other browser.</p>
+
+    <p>Try it out and click the button below. Thanks.</p>
+
+    <p>If you want, you can follow me on Twitter. I'm <a href="http://twitter.com/hayify">@hayify</a></p>
+
+    <button>Click here</button>
+    <br><br>
+    <video src="dog.mp4"></video>
+
+    <script>
+        // Note: this ONLY works on an iPhone. Don't try this in Chrome.
+
+        var start;
+        var video = document.querySelector('video');
+        var button = document.querySelector('button');
+
+        function play() {
+            var now = +new Date();
+            var diff = (now - start) / 1000;
+            video.currentTime = diff;
+
+            if (diff > video.duration) {
+                start = now;
+            }
+
+            requestAnimationFrame(play);
+        }
+
+        button.onclick = function() {
+            start = +new Date();
+            video.currentTime = 0;
+            video.play();
+            video.pause();
+            play();
+        };
+    </script>
+</body>
+</html>
