@@ -46,7 +46,7 @@
 
         <p>However, there is a pretty awful hack that basically moves the playhead on a video instead of really playing it. Because of that, you don't hear audio. Try extracting the audio and playing it in a separate &lt;audio&gt; element.</p>
 
-        <p>I didn't discover this hack. It's extracted from the <a href="https://www.npmjs.com/package/iphone-inline-video">iphone-inline-video</a> package.</p>
+        <p>I didn't discover this hack. It's extracted from the <a href="https://www.npmjs.com/package/iphone-inline-video">iphone-inline-video</a> package by <a href="https://github.com/bfred-it">Federico Brigante</a>.</p>
 
         <p>Note: this ONLY works on an iPhone. Don't try this in any other browser.</p>
 
@@ -58,24 +58,33 @@
         var start;
         var video = document.querySelector('video');
         var previousTime;
-        
+
         video.load();
-        (function play(now) { // requestAnimationFrame automatically provides Date.now()
-            
-            if(video.readyState >= video.HAVE_FUTURE_DATA) { //only play if it has the data, without waiting for ambiguous events
-                if (video.currentTime >= video.duration - 0.05) { // safer way to check whether the video is ended
+
+        // requestAnimationFrame automatically provides Date.now()
+        function play(now) {
+            // only play if it has the data,
+            // without waiting for ambiguous events
+            if(video.readyState >= video.HAVE_FUTURE_DATA) {
+                if (video.currentTime >= video.duration - 0.05) {
+                    // safer way to check whether the video is ended
                     video.currentTime = 0; // restart video
                 } else {
-                    previousTime = previousTime || now; //make it start at 0
-                    video.currentTime += (now - previousTime) / 1000; // increase it by the time it passed since the last animationFrame
+                    //make it start at 0
+                    previousTime = previousTime || now;
+
+                    // increase it by the time it passed since the last
+                    // animationFrame
+                    video.currentTime += (now - previousTime) / 1000;
                 }
             }
-            
-            previousTime = now;
-            
-            requestAnimationFrame(play);
-        })(Date.now());
 
+            previousTime = now;
+
+            requestAnimationFrame(play);
+        }
+
+        play(Date.now());
     </script>
 </body>
 </html>
